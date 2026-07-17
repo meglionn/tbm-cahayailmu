@@ -21,32 +21,22 @@ export default function Donate() {
             </h2>
             <p className="text-cream/85 max-w-[52ch] mx-auto mt-3">
               Donasi buku maupun dana sangat membantu keberlangsungan taman
-              baca ini setelah masa KKN selesai. Silakan hubungi atau
+              baca ini. Silakan hubungi atau
               kirimkan donasi ke nomor berikut.
             </p>
-
             <div className="inline-flex flex-col sm:flex-row items-center gap-4 mt-7 bg-white rounded-2xl px-7 py-5 shadow-pop">
               <div className="text-left">
                 <p className="font-label font-bold text-[0.7rem] text-ink-soft tracking-wide">
                   WHATSAPP / E-WALLET (DANA · OVO · GOPAY)
                 </p>
                 <p className="font-display font-bold text-2xl text-board-dark">
-                  0812-3456-7890
+                  0856-4649-5241                
                 </p>
                 <p className="text-[0.8rem] text-ink-soft mt-0.5">
-                  a.n. Pengurus Taman Baca Mini Cahaya Ilmu
+                  a.n. Ulin 
                 </p>
               </div>
             </div>
-
-            <p className="text-cream/70 text-[0.8rem] mt-5">
-              * Ganti nomor dan nama pemilik rekening di atas dengan data
-              donasi yang sebenarnya di{" "}
-              <code className="bg-white/15 px-1.5 py-0.5 rounded font-label text-[0.85em]">
-                components/Donate.tsx
-              </code>
-              .
-            </p>
           </div>
         </div>
       </div>

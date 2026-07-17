@@ -21,6 +21,7 @@ export default function Nav() {
             { href: "#pengurus", label: "Pengurus" },
             { href: "#dokumentasi", label: "Dokumentasi" },
             { href: "#donasi", label: "Donasi" },
+            { href: "#kontak", label: "Kontak" },
           ].map((item) => (
             <a
               key={item.href}

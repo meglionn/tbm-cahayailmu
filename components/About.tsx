@@ -1,6 +1,6 @@
 const points = [
   {
-    text: "Menyediakan akses buku bacaan gratis untuk anak-anak sekitar, dari cerita bergambar hingga novel remaja.",
+    text: "Menyediakan akses buku bacaan gratis untuk anak-anak sekitar, dari cerita bergambar hingga komik.",
     color: "bg-coral",
   },
   {
@@ -35,11 +35,15 @@ export default function About() {
 
           <div>
             <p>
-              Taman Baca Mini Cahaya Ilmu hadir sebagai bagian dari program
-              KKN Literasi, hasil kolaborasi mahasiswa dan Perpustakaan
-              Nasional RI. Taman baca ini terbuka untuk semua usia, dari anak
-              TK dan PAUD yang baru mengenal huruf, sampai anak SMP yang
-              sudah gemar membaca novel.
+              Taman Baca Mini Cahaya Ilmu merupakan ruang literasi masyarakat yang 
+              didirikan secara mandiri oleh Ibu Ulin. Berlokasi di seberang halaman rumah 
+              beliau yang juga menjadi area usaha bakso mini milik keluarganya, taman baca ini lahir 
+              sebagai respon solutif di tengah pandemi Covid-19. Prihatin dengan tingginya 
+              ketergantungan anak-anak terhadap gawai (handphone) selama masa pembatasan sosial, 
+              Ibu Ulin berinisiatif menyediakan alternatif aktivitas yang lebih edukatif.
+            </p>
+            <p>
+              Seiring berjalannya waktu, dedikasi taman baca ini mendapat apresiasi dan dukungan dari pemerintah. Melalui Perpustakaan Daerah (Perpusda), Perpustakaan Nasional (Perpusnas) turut menyalurkan donasi buku untuk mendukung operasional dan memperkaya bahan bacaan bagi anak-anak di lingkungan sekitar.
             </p>
             <ul className="list-none mt-5 grid gap-4 p-0">
               {points.map((point, i) => (

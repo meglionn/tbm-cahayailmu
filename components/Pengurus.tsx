@@ -1,8 +1,5 @@
 const pengurus = [
-  { name: "Nama Ketua TBM", role: "Ketua Taman Baca", color: "bg-coral" },
-  { name: "Nama Koordinator", role: "Koordinator Kegiatan", color: "bg-grass-dark" },
-  { name: "Nama Bendahara", role: "Bendahara", color: "bg-lavender" },
-  { name: "Nama Anggota", role: "Pengelola Koleksi Buku", color: "bg-board-dark" },
+  { name: "Ibu Ulin", role: "Pendiri TBM Cahaya Ilmu ", color: "bg-coral" },
 ];
 
 function initials(name: string) {
@@ -25,11 +22,7 @@ export default function Pengurus() {
           <h2 className="font-display font-bold text-3xl">
             Pengurus Taman Baca
           </h2>
-          <p className="text-ink-soft mt-1.5">
-            Warga sekitar yang akan meneruskan perawatan taman baca ini
-            setelah masa KKN Literasi selesai.
-          </p>
-        </div>
+          </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
           {pengurus.map((p) => (
@@ -54,14 +47,7 @@ export default function Pengurus() {
           ))}
         </div>
 
-        <p className="mt-6 text-[0.85rem] text-ink-soft">
-          * Ganti nama, peran, dan foto di atas dengan data pengurus TBM yang
-          sebenarnya di file{" "}
-          <code className="bg-ink/10 px-1.5 py-0.5 rounded font-label text-[0.85em]">
-            components/Pengurus.tsx
-          </code>
-          .
-        </p>
+        
       </div>
     </section>
   );

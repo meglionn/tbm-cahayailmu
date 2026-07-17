@@ -24,16 +24,16 @@ export default function Footer() {
             Kontak
           </h3>
           <p className="text-[0.88rem] opacity-85">
-            Alamat taman baca
+            Jl. Arjuna 77 RT 03/RW 01 Kelurahan Kademangan, Kecamatan Kademangan, Kabupaten Blitar, Jawa Timur 66161
             <br />
-            Jam kunjungan: Senin–Sabtu, 09.00–15.00
+            Jam kunjungan: Senin–Sabtu, 07.00–17.30
             <br />
-            Email / kontak pengurus
+            telp: 085646495241
           </p>
         </div>
       </div>
       <p className="max-w-[1100px] mx-auto px-6 text-[0.82rem] opacity-75 mt-6">
-        © 2026 Taman Baca Mini Cahaya Ilmu. Dibuat dalam rangka KKN Literasi.
+        © 2026 Taman Baca Mini Cahaya Ilmu. 
       </p>
     </footer>
   );

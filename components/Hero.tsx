@@ -29,14 +29,13 @@ export default function Hero() {
 
         <p className="max-w-[560px] mx-auto mt-6 text-center text-ink-soft text-base relative z-[2]">
           Ruang baca kecil yang hangat untuk anak-anak TK, PAUD, SD, hingga SMP
-          — hasil kolaborasi KKN Literasi mahasiswa dengan Perpustakaan
-          Nasional RI.
+          
         </p>
 
         <div className="flex justify-center gap-3.5 flex-wrap mt-8 relative z-[2]">
           {[
-            { num: "120+", label: "JUDUL BUKU" },
-            { num: "6", label: "MINGGU KEGIATAN" },
+            { num: "900+", label: "JUDUL BUKU" },
+            { num: "7", label: "HARI OPERASIONAL" },
             { num: "30+", label: "PENGUNJUNG ANAK" },
           ].map((item) => (
             <div
