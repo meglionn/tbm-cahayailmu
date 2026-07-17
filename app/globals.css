@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+body {
+  background: #fff9ec;
+  color: #4a3b32;
+}
+
+/* ---- Hero decorations that are easier to keep as plain CSS ---- */
+.cloud {
+  position: absolute;
+  background: #fff;
+  border-radius: 50px;
+  opacity: 0.85;
+  box-shadow: 30px 6px 0 -6px #fff, -30px 10px 0 -8px #fff;
+}
+
+.rainbow-arc {
+  position: absolute;
+  top: -90px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 520px;
+  height: 260px;
+  border-radius: 50%;
+  border: 14px solid #f6a8c0;
+  box-shadow:
+    0 0 0 14px #b8a6e8,
+    0 0 0 28px #7fd8c4,
+    0 0 0 42px #ffc93c;
+  clip-path: inset(0 0 50% 0);
+}
+
+@media (max-width: 640px) {
+  .rainbow-arc {
+    width: 380px;
+    height: 190px;
+    top: -60px;
+  }
+}
