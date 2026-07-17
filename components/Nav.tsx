@@ -2,7 +2,7 @@ export default function Nav() {
   return (
     <header className="sticky top-0 z-50 bg-sky-bottom border-b-[3px] border-board/10">
       <div className="max-w-[1100px] mx-auto px-6 py-3.5 flex items-center justify-between gap-4 flex-wrap">
-        <a href="#top" className="flex items-center gap-2.5 no-underline">
+        <a href="/" className="flex items-center gap-2.5 no-underline">
           <span className="w-[42px] h-[42px] rounded-full bg-sun flex items-center justify-center text-xl shadow-pop flex-shrink-0">
             📖
           </span>
@@ -17,11 +17,12 @@ export default function Nav() {
         </a>
         <nav className="flex gap-1 flex-wrap">
           {[
-            { href: "#tentang", label: "Tentang" },
-            { href: "#pengurus", label: "Pengurus" },
-            { href: "#dokumentasi", label: "Dokumentasi" },
-            { href: "#donasi", label: "Donasi" },
-            { href: "#kontak", label: "Kontak" },
+            { href: "/#tentang", label: "Tentang" },
+            { href: "/#pengurus", label: "Pengurus" },
+            { href: "/katalog", label: "Katalog" },
+            { href: "/#dokumentasi", label: "Dokumentasi" },
+            { href: "/#donasi", label: "Donasi" },
+            { href: "/#kontak", label: "Kontak" },
           ].map((item) => (
             <a
               key={item.href}
