@@ -10,7 +10,7 @@ export type Book = {
 // ID adalah bagian di antara "/d/" dan "/edit" pada URL sheet-nya, contoh:
 // https://docs.google.com/spreadsheets/d/INI_ID_NYA/edit#gid=0
 const SHEET_ID = "1rtTNDbVv-IXbhLSVx7aI2NhmoSCatzek";
-const GID = "0"; // ganti kalau data ada di tab/sheet lain
+const GID = "1"; // ganti kalau data ada di tab/sheet lain
 
 const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${GID}`;
 
@@ -56,7 +56,7 @@ export async function getBooks(): Promise<Book[]> {
 
     // Baris 1 = judul dokumen/kosong, baris 2 = header kolom, data mulai baris 3
     // Sesuaikan indeks ini kalau struktur sheet kamu berbeda.
-    const dataLines = lines.slice(2);
+    const dataLines = lines.slice(1);
 
     const books: Book[] = dataLines.map((line, index) => {
       const cols = parseCsvLine(line);

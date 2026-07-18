@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import BookCatalog from "@/components/Catalog";
-import { getBooks } from "@/app/books";
+import BookCatalog from "@/components/BookCatalog";
+import { getBooks } from "@/lib/books";
 
 export const metadata: Metadata = {
   title: "Katalog Buku — Taman Baca Mini Cahaya Ilmu",

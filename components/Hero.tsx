@@ -37,7 +37,7 @@ export default function Hero() {
               <div className="font-display font-bold text-2xl text-board-dark">
                 {item.num}
               </div>
-              <div className="font-label text-[1 rem] text-ink-soft font-semibold tracking-wide">
+              <div className="font-label text-[1rem] text-ink-soft font-semibold tracking-wide">
                 {item.label}
               </div>
             </div>
