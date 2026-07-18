@@ -13,7 +13,7 @@ export type Book = {
 // GANTI dengan ID Google Sheets kamu.
 // ID adalah bagian di antara "/d/" dan "/edit" pada URL sheet-nya, contoh:
 // https://docs.google.com/spreadsheets/d/INI_ID_NYA/edit#gid=0
-const SHEET_ID = "1rtTNDbVv-IXbhLSVx7aI2NhmoSCatzek";
+const SHEET_ID = "1Gm9uHBEEVH1DYbrA57cqLOrt33JXGRkb-IXbhLSVx7aI2NhmoSCatzek";
 // gid=0 adalah tab PERTAMA (paling kiri) di Google Sheets kamu.
 // Kalau data buku dipindah ke tab lain, klik tab-nya lalu lihat "gid=..." di address bar.
 const GID = "0";
