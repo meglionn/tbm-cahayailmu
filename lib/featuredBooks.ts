@@ -12,7 +12,7 @@ export const featuredBooks: Book[] = [
     id: "featured-1",
     nomorInventaris: "",
     tanggalTerima: "",
-    judul: "Mira & Amira",
+    judul: "Mira dan Amira",
     pengarang: "Nimmy Chakko",
     penerbit: "Kementerian Pendidikan Dasar dan Menengah RI",
     tahunTerbit: "",

@@ -32,7 +32,7 @@ export default function BookShowcase({ books }: { books: Book[] }) {
               Koleksi Kami
             </span>
             <h2 className="font-display font-bold text-2xl sm:text-3xl text-board-dark">
-              Sampul Buku Pilihan
+              Pilih Buku Favoritmu!
             </h2>
             <p className="text-ink-soft mt-2 max-w-[48ch]">
               Klik salah satu sampul untuk melihat detailnya, lalu lanjut ke katalog lengkap.

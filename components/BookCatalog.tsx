@@ -23,6 +23,7 @@ export default function BookCatalog({ books }: { books: Book[] }) {
 
   const [query, setQuery] = useState(initialQuery);
   const [level, setLevel] = useState("Semua");
+  const [selected, setSelected] = useState<Book | null>(null);
   const highlightRef = useRef<HTMLDivElement | null>(null);
 
   const levelList = useMemo(() => {
@@ -138,16 +139,120 @@ export default function BookCatalog({ books }: { books: Book[] }) {
                     Diterima {book.tanggalTerima}
                   </p>
                 )}
-                <div className="mt-auto flex flex-wrap gap-1.5">
-                  {book.jumlahEksemplar && (
-                    <span className="font-label font-bold text-[0.7rem] tracking-wide uppercase px-3 py-1 rounded-full bg-mint/20 text-grass-dark">
-                      {book.jumlahEksemplar} eksemplar
-                    </span>
-                  )}
+                <div className="mt-auto flex flex-wrap gap-1.5 items-center justify-between pt-1">
+                  <div className="flex flex-wrap gap-1.5">
+                    {book.jumlahEksemplar && (
+                      <span className="font-label font-bold text-[0.7rem] tracking-wide uppercase px-3 py-1 rounded-full bg-mint/20 text-grass-dark">
+                        {book.jumlahEksemplar} eksemplar
+                      </span>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setSelected(book)}
+                    className="font-bold text-xs text-coral hover:text-board-dark transition-colors whitespace-nowrap"
+                  >
+                    Lihat Detail →
+                  </button>
                 </div>
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {selected && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-board-dark/60 px-4 py-8"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Detail buku ${selected.judul}`}
+          onClick={() => setSelected(null)}
+        >
+          <div
+            className="bg-white rounded-card shadow-pop max-w-md w-full max-h-[85vh] overflow-y-auto p-6 relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setSelected(null)}
+              aria-label="Tutup"
+              className="absolute top-3 right-3 w-8 h-8 rounded-full bg-cream-2 flex items-center justify-center text-board-dark hover:bg-cream transition-colors"
+            >
+              ✕
+            </button>
+
+            {selected.nomorInventaris && (
+              <p className="font-label font-bold text-xs tracking-wide text-coral mb-1">
+                {selected.nomorInventaris}
+              </p>
+            )}
+            <h3 className="font-display font-bold text-lg text-board-dark mb-3 pr-8">
+              {selected.judul}
+            </h3>
+
+            <div className="flex flex-wrap gap-1.5 mb-4">
+              {selected.level && (
+                <span className="font-label font-bold text-[0.7rem] tracking-wide uppercase bg-mint/20 text-grass-dark px-3 py-1 rounded-full">
+                  Level {selected.level}
+                </span>
+              )}
+              {selected.subjek && (
+                <span className="font-label font-bold text-[0.7rem] tracking-wide uppercase bg-lavender/30 text-board-dark px-3 py-1 rounded-full">
+                  {selected.subjek}
+                </span>
+              )}
+              {selected.jumlahEksemplar && (
+                <span className="font-label font-bold text-[0.7rem] tracking-wide uppercase bg-sun/40 text-board-dark px-3 py-1 rounded-full">
+                  {selected.jumlahEksemplar} eksemplar
+                </span>
+              )}
+            </div>
+
+            <dl className="space-y-2.5 text-sm">
+              {selected.pengarang && (
+                <div className="flex justify-between gap-3">
+                  <dt className="text-ink-soft">Pengarang</dt>
+                  <dd className="font-bold text-board-dark text-right">{selected.pengarang}</dd>
+                </div>
+              )}
+              {selected.penerbit && (
+                <div className="flex justify-between gap-3">
+                  <dt className="text-ink-soft">Penerbit</dt>
+                  <dd className="font-bold text-board-dark text-right">{selected.penerbit}</dd>
+                </div>
+              )}
+              {selected.tahunTerbit && (
+                <div className="flex justify-between gap-3">
+                  <dt className="text-ink-soft">Tahun Terbit</dt>
+                  <dd className="font-bold text-board-dark text-right">{selected.tahunTerbit}</dd>
+                </div>
+              )}
+              {selected.tanggalTerima && (
+                <div className="flex justify-between gap-3">
+                  <dt className="text-ink-soft">Tanggal Terima</dt>
+                  <dd className="font-bold text-board-dark text-right">{selected.tanggalTerima}</dd>
+                </div>
+              )}
+              {selected.nomorInventaris && (
+                <div className="flex justify-between gap-3">
+                  <dt className="text-ink-soft">No. Inventaris</dt>
+                  <dd className="font-bold text-board-dark text-right">{selected.nomorInventaris}</dd>
+                </div>
+              )}
+            </dl>
+
+            {selected.keterangan && (
+              <div className="mt-4 pt-4 border-t border-board/10">
+                <p className="text-ink-soft text-xs font-bold uppercase tracking-wide mb-1">
+                  Keterangan
+                </p>
+                <p className="text-sm text-board-dark whitespace-pre-line">
+                  {selected.keterangan}
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

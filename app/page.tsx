@@ -15,8 +15,8 @@ export default async function Home() {
       <Hero />
       <About />
       <Pengurus />
-      <Documentation />
       <BookShowcase books={featuredBooks} />
+      <Documentation />
       <Donate />
       <Footer />
     </main>

@@ -49,7 +49,7 @@ export default function Donate() {
   
             <div className="relative rounded-card overflow-hidden shadow-soft">
               <a
-                href="https://www.google.com/maps/search/?api=1&query=Taman+Baca+Mini+Cahaya+Ilmu"
+                href="https://www.google.com/maps/search/?api=1&query=Taman+Baca+Cahaya+Ilmu"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="absolute top-4 left-4 z-10 flex items-center gap-1.5 bg-white rounded-full px-4 py-2 text-sm font-bold text-sky-700 shadow-soft hover:bg-cream transition-colors"
