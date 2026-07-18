@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import type { Book } from "@/lib/books";
 
 const cardGradients = [
@@ -13,8 +14,16 @@ const cardGradients = [
 ];
 
 export default function BookCatalog({ books }: { books: Book[] }) {
-  const [query, setQuery] = useState("");
+  // Kalau datang dari klik "Lihat di Katalog" di carousel Sampul Buku
+  // Pilihan, linknya berbentuk /katalog?cari=<judul>. Sebelumnya nilai ini
+  // tidak pernah dibaca (kotak pencarian selalu kosong), jadi di sini kita
+  // ambil sebagai nilai awal pencarian.
+  const searchParams = useSearchParams();
+  const initialQuery = searchParams.get("cari") ?? "";
+
+  const [query, setQuery] = useState(initialQuery);
   const [level, setLevel] = useState("Semua");
+  const highlightRef = useRef<HTMLDivElement | null>(null);
 
   const levelList = useMemo(() => {
     const unique = Array.from(new Set(books.map((b) => b.level))).filter(Boolean);
@@ -33,6 +42,22 @@ export default function BookCatalog({ books }: { books: Book[] }) {
       return matchLevel && matchQuery;
     });
   }, [books, query, level]);
+
+  // Buku yang persis judulnya sama dengan link dari carousel -> disorot dan
+  // otomatis di-scroll ke posisinya supaya user langsung melihat buku yang
+  // sampulnya baru saja mereka klik.
+  const highlightedId = useMemo(() => {
+    const target = initialQuery.trim().toLowerCase();
+    if (!target) return null;
+    const exact = books.find((book) => book.judul.trim().toLowerCase() === target);
+    return exact?.id ?? null;
+  }, [books, initialQuery]);
+
+  useEffect(() => {
+    if (highlightedId && highlightRef.current) {
+      highlightRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [highlightedId]);
 
   return (
     <div>
@@ -75,7 +100,12 @@ export default function BookCatalog({ books }: { books: Book[] }) {
           {filtered.map((book, index) => (
             <div
               key={book.id}
-              className="bg-white rounded-card overflow-hidden shadow-soft flex flex-col"
+              ref={book.id === highlightedId ? highlightRef : undefined}
+              className={`bg-white rounded-card overflow-hidden shadow-soft flex flex-col transition-shadow ${
+                book.id === highlightedId
+                  ? "ring-4 ring-coral ring-offset-2"
+                  : ""
+              }`}
             >
               <div
                 className={`h-20 flex items-center justify-center text-white font-display font-bold text-sm text-center px-4 bg-gradient-to-br ${

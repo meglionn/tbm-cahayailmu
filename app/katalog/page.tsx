@@ -4,6 +4,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import BookCatalog from "@/components/BookCatalog";
 import { getBooks } from "@/lib/books";
+import { featuredBooks } from "@/lib/featuredBooks";
 
 export const metadata: Metadata = {
   title: "Katalog Buku — Taman Baca Mini Cahaya Ilmu",
@@ -11,7 +12,19 @@ export const metadata: Metadata = {
 };
 
 export default async function KatalogPage() {
-  const books = await getBooks();
+  const sheetBooks = await getBooks();
+
+  // Buku pilihan (lib/featuredBooks.ts) dipakai di carousel homepage, dan
+  // link "Lihat di Katalog"-nya mengarah ke sini. Supaya buku itu benar-benar
+  // bisa ditemukan (bukan cuma disorot ke pencarian kosong), kita gabungkan
+  // ke daftar katalog di sini kalau judulnya belum ada dari Google Sheets.
+  const existingTitles = new Set(
+    sheetBooks.map((b) => b.judul.trim().toLowerCase())
+  );
+  const extraFeatured = featuredBooks.filter(
+    (b) => !existingTitles.has(b.judul.trim().toLowerCase())
+  );
+  const books = [...sheetBooks, ...extraFeatured];
 
   return (
     <main>
