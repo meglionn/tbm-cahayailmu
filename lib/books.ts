@@ -1,7 +1,5 @@
 export type Book = {
   id: string;
-  nomorInventaris: string;
-  tanggalTerima: string;
   judul: string;
   pengarang: string;
   penerbit: string;
@@ -58,8 +56,7 @@ function normalizeHeader(header: string): string {
 
 // Beberapa kemungkinan nama header untuk tiap field, biar fleksibel
 // kalau ada perbedaan penulisan kecil di sheet.
-const HEADER_ALIASES: Record<keyof Omit<Book, "id" | "nomorInventaris">, string[]> = {
-  tanggalTerima: ["tanggal terima", "tanggal"],
+const HEADER_ALIASES: Record<keyof Omit<Book, "id">, string[]> = {
   judul: ["judul buku", "judul"],
   pengarang: ["pengarang", "penulis"],
   penerbit: ["penerbit"],
@@ -82,13 +79,12 @@ function buildColumnIndex(headerRow: string[]): Record<string, number> {
     }
   }
 
-  // Nomor Inventaris dipakai sebagai id unik tiap buku, dan juga ditampilkan
+  // Nomor Inventaris dipakai sebagai id unik tiap buku
   const invIndex = normalized.findIndex((h) =>
     ["nomor inventaris", "no inventaris", "nomor"].includes(h)
   );
   if (invIndex !== -1) {
     index["id"] = invIndex;
-    index["nomorInventaris"] = invIndex;
   }
 
   return index;
@@ -132,8 +128,6 @@ export async function getBooks(): Promise<Book[]> {
 
         return {
           id: get("id") || String(i + 1),
-          nomorInventaris: get("nomorInventaris"),
-          tanggalTerima: get("tanggalTerima"),
           judul: get("judul"),
           pengarang: get("pengarang"),
           penerbit: get("penerbit"),

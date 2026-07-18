@@ -1,13 +1,22 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import type { Book } from "@/lib/books";
 import BookCard from "./BookCard";
 import BookRow from "./BookRow";
 
 export default function BookCatalog({ books }: { books: Book[] }) {
-  const [query, setQuery] = useState("");
+  const searchParams = useSearchParams();
+  const [query, setQuery] = useState(() => searchParams.get("cari") ?? "");
   const [level, setLevel] = useState("Semua");
+
+  // Kalau datang dari carousel di halaman utama (link ?cari=Judul Buku),
+  // isi otomatis kolom pencarian supaya langsung menampilkan buku yang diklik.
+  useEffect(() => {
+    const cari = searchParams.get("cari");
+    if (cari) setQuery(cari);
+  }, [searchParams]);
 
   const levelList = useMemo(() => {
     const unique = Array.from(new Set(books.map((b) => b.level))).filter(Boolean);
@@ -99,7 +108,7 @@ export default function BookCatalog({ books }: { books: Book[] }) {
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
               {filtered.map((book, index) => (
-                <BookCard key={book.id} book={book} index={index} />
+                <BookCard key={book.id} book={book} index={index} hideCover />
               ))}
             </div>
           )}

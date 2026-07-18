@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import BookCatalog from "@/components/BookCatalog";
@@ -46,7 +47,9 @@ export default async function KatalogPage() {
               </p>
             </div>
           ) : (
-            <BookCatalog books={books} />
+            <Suspense fallback={<p className="text-center text-ink-soft py-10">Memuat katalog...</p>}>
+              <BookCatalog books={books} />
+            </Suspense>
           )}
         </div>
       </section>
