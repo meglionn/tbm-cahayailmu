@@ -20,10 +20,9 @@ const points = [
 // { src: "/images/suasana/1.jpg", alt: "Anak-anak membaca bersama" }
 // Kalau src dikosongkan (""), akan tampil kotak warna placeholder dulu.
 const suasanaPhotos = [
-  { src: "", alt: "Anak-anak membaca bersama" },
-  { src: "", alt: "Kegiatan mendongeng" },
-  { src: "", alt: "Rak buku Taman Baca" },
-  { src: "", alt: "Suasana taman baca sore hari" },
+  { src: "/images/halaman.jpg"},
+  { src: "/images/tbm.jpg"},
+  { src: "/images/image.jpg" },
 ];
 
 export default function About() {

@@ -20,8 +20,8 @@ export default async function Home() {
       <About />
       <Pengurus />
       <Documentation />
-      <Donate />
       <BookShowcase books={showcaseBooks} />
+      <Donate />
       <Footer />
     </main>
   );
