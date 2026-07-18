@@ -4,9 +4,15 @@ import About from "@/components/About";
 import Pengurus from "@/components/Pengurus";
 import Documentation from "@/components/Documentation";
 import Donate from "@/components/Donate";
+import BookShowcase from "@/components/BookShowcase";
 import Footer from "@/components/Footer";
+import { getBooks } from "@/lib/books";
 
-export default function Home() {
+export default async function Home() {
+  const books = await getBooks();
+  // Tampilkan 5 buku saja di carousel halaman utama
+  const showcaseBooks = books.slice(0, 5);
+
   return (
     <main>
       <Nav />
@@ -15,6 +21,7 @@ export default function Home() {
       <Pengurus />
       <Documentation />
       <Donate />
+      <BookShowcase books={showcaseBooks} />
       <Footer />
     </main>
   );
