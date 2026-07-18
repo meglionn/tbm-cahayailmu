@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="bg-board-dark text-[#FFF3E0] pt-11 pb-7 mt-5">
+    <footer id="kontak" className="bg-board-dark text-[#FFF3E0] pt-11 pb-7 mt-5 scroll-mt-24">
       <div className="max-w-[1100px] mx-auto px-6 flex justify-between gap-6 flex-wrap">
         <div>
           <h3 className="font-display font-bold text-lg text-cream">
