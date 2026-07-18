@@ -23,14 +23,10 @@ export default function BookCard({
 }) {
   const [imgFailed, setImgFailed] = useState(false);
 
-  // Cover diambil dari folder public/images/covers/, nama file HARUS sama persis
-  // dengan Nomor Inventaris di sheet, contoh: Nomor Inventaris "0001" -> file
-  // public/images/covers/0001.jpg
-  // Kalau file covernya belum ada/gagal dimuat, otomatis balik ke placeholder warna.
-  const coverSrc = book.nomorInventaris
-    ? `/images/covers/${book.nomorInventaris}.jpg`
-    : "";
-  const showCover = coverSrc && !imgFailed;
+  // Cover dicocokkan OTOMATIS dari nama file di folder public/images/ ke judul
+  // buku (lihat lib/covers.ts). Kalau belum ada file yang cocok, coverUrl
+  // bernilai null dan otomatis tampil placeholder warna, bukan cover salah.
+  const showCover = book.coverUrl && !imgFailed;
 
   return (
     <div className="w-full">
@@ -39,7 +35,7 @@ export default function BookCard({
           {showCover ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={coverSrc}
+              src={book.coverUrl!}
               alt={`Sampul buku ${book.judul}`}
               className="w-full h-full object-cover"
               loading="lazy"

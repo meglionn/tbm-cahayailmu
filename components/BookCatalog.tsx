@@ -86,9 +86,9 @@ export default function BookCatalog({ books }: { books: Book[] }) {
               </div>
               <div className="px-5 pt-4 pb-5 flex flex-col flex-1">
                 {book.nomorInventaris && (
-                  <span className="font-label font-bold text-xs tracking-wide text-coral mb-1">
+                  <h3 className="font-label font-bold text-xs tracking-wide text-coral mb-1">
                   {book.nomorInventaris}
-                  </span>
+                  </h3>
                 )}
                 <h3 className="font-display font-bold text-base text-board-dark mb-1.5">
                   {book.judul}

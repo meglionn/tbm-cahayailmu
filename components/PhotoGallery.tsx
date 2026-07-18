@@ -4,7 +4,7 @@ import { useRef } from "react";
 
 export type GalleryPhoto = {
   src: string;
-  alt: string;
+  alt?: string;
 };
 
 const gradients = [
@@ -37,7 +37,7 @@ export default function PhotoGallery({ photos }: { photos: GalleryPhoto[] }) {
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={photo.src}
-                alt={photo.alt}
+                alt={photo.alt ?? "Foto suasana Taman Baca Mini Cahaya Ilmu"}
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
@@ -47,7 +47,7 @@ export default function PhotoGallery({ photos }: { photos: GalleryPhoto[] }) {
                   gradients[i % gradients.length]
                 }`}
               >
-                {photo.alt}
+                {photo.alt ?? "Foto suasana"}
               </div>
             )}
           </div>

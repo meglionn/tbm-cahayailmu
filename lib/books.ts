@@ -1,3 +1,5 @@
+import { findCoverForTitle } from "./covers";
+
 export type Book = {
   id: string;
   nomorInventaris: string;
@@ -10,6 +12,7 @@ export type Book = {
   level: string;
   subjek: string;
   keterangan: string;
+  coverUrl: string | null;
 };
 
 // GANTI dengan ID Google Sheets kamu.
@@ -53,12 +56,19 @@ function parseCsvLine(line: string): string[] {
 // Header di Google Sheets dicocokkan berdasarkan NAMA kolom (bukan posisi),
 // supaya tetap aman walau kolom digeser/ditambah di kemudian hari.
 function normalizeHeader(header: string): string {
-  return header.trim().toLowerCase();
+  // Buang semua karakter selain huruf/angka (spasi ganda, karakter tak
+  // terlihat dari Google Sheets, dsb) supaya pencocokan nama kolom lebih
+  // tahan banting terhadap variasi kecil penulisan header.
+  return header
+    .trim()
+    .toLowerCase()
+    .normalize("NFKC")
+    .replace(/[^a-z0-9]/g, "");
 }
 
 // Beberapa kemungkinan nama header untuk tiap field, biar fleksibel
 // kalau ada perbedaan penulisan kecil di sheet.
-const HEADER_ALIASES: Record<keyof Omit<Book, "id" | "nomorInventaris">, string[]> = {
+const HEADER_ALIASES: Record<keyof Omit<Book, "id" | "nomorInventaris" | "coverUrl">, string[]> = {
   tanggalTerima: ["tanggal terima", "tanggal"],
   judul: ["judul buku", "judul"],
   pengarang: ["pengarang", "penulis"],
@@ -75,16 +85,21 @@ function buildColumnIndex(headerRow: string[]): Record<string, number> {
   const index: Record<string, number> = {};
 
   for (const field of Object.keys(HEADER_ALIASES) as (keyof typeof HEADER_ALIASES)[]) {
-    const aliases = HEADER_ALIASES[field];
-    const foundIndex = normalized.findIndex((h) => aliases.includes(h));
+    const aliases = HEADER_ALIASES[field].map(normalizeHeader);
+    // "includes" (bukan exact match) supaya tahan variasi kecil, misal
+    // header "Judul Buku " (ada spasi ekstra) tetap cocok dengan alias "judulbuku".
+    const foundIndex = normalized.findIndex((h) =>
+      aliases.some((alias) => h.includes(alias) || alias.includes(h))
+    );
     if (foundIndex !== -1) {
       index[field] = foundIndex;
     }
   }
 
   // Nomor Inventaris dipakai sebagai id unik tiap buku, dan juga ditampilkan
+  const invAliases = ["nomorinventaris", "noinventaris", "nomor"].map(normalizeHeader);
   const invIndex = normalized.findIndex((h) =>
-    ["nomor inventaris", "no inventaris", "nomor"].includes(h)
+    invAliases.some((alias) => h.includes(alias))
   );
   if (invIndex !== -1) {
     index["id"] = invIndex;
@@ -142,9 +157,11 @@ export async function getBooks(): Promise<Book[]> {
           level: get("level"),
           subjek: get("subjek"),
           keterangan: get("keterangan"),
+          coverUrl: null as string | null,
         };
       })
-      .filter((book) => book.judul !== "");
+      .filter((book) => book.judul !== "")
+      .map((book) => ({ ...book, coverUrl: findCoverForTitle(book.judul) }));
 
     return books;
   } catch (error) {
