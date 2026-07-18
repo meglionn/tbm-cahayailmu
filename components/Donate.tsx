@@ -39,6 +39,51 @@ export default function Donate() {
             </div>
           </div>
         </div>
+        <div className="mt-14">
+            <span className="font-label font-bold text-[0.78rem] tracking-wide uppercase text-coral block mb-1.5">
+              Lokasi Kami
+            </span>
+            <h3 className="font-display font-bold text-2xl mb-5">
+              Kunjungi Taman Baca Mini Cahaya Ilmu
+            </h3>
+  
+            <div className="relative rounded-card overflow-hidden shadow-soft">
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Taman+Baca+Mini+Cahaya+Ilmu"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute top-4 left-4 z-10 flex items-center gap-1.5 bg-white rounded-full px-4 py-2 text-sm font-bold text-sky-700 shadow-soft hover:bg-cream transition-colors"
+              >
+                Maps
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-4 h-4"
+                >
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+              </a>
+  
+              <iframe
+                title="Lokasi Taman Baca Mini Cahaya Ilmu"
+                src="https://www.google.com/maps?q=Taman+Baca+Cahaya+Ilmu+Jl.+Arjuno+77&output=embed"
+                width="100%"
+                height="250"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="block"
+              />
+          </div>
+        </div>
       </div>
     </section>
   );
