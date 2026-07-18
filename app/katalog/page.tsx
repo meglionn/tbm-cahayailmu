@@ -40,7 +40,9 @@ export default async function KatalogPage() {
               </p>
               <p className="text-ink-soft text-sm">
                 Pastikan Google Sheets sudah dibagikan sebagai &quot;Anyone with the
-                link&quot; dan ID sheet di <code>lib/books.ts</code> sudah benar.
+                link&quot;, tab yang berisi data ada di <code>gid</code> yang benar,
+                dan baris pertama berisi nama-nama header kolom (mis. &quot;Judul
+                Buku&quot;). Cek pengaturan di <code>lib/books.ts</code>.
               </p>
             </div>
           ) : (

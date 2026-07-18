@@ -1,16 +1,22 @@
 export type Book = {
   id: string;
   judul: string;
-  kategori: string;
-  deskripsi: string;
-  status: string;
+  pengarang: string;
+  penerbit: string;
+  tahunTerbit: string;
+  jumlahEksemplar: string;
+  level: string;
+  subjek: string;
+  keterangan: string;
 };
 
 // GANTI dengan ID Google Sheets kamu.
 // ID adalah bagian di antara "/d/" dan "/edit" pada URL sheet-nya, contoh:
 // https://docs.google.com/spreadsheets/d/INI_ID_NYA/edit#gid=0
 const SHEET_ID = "1rtTNDbVv-IXbhLSVx7aI2NhmoSCatzek";
-const GID = "1"; // ganti kalau data ada di tab/sheet lain
+// gid=0 adalah tab PERTAMA (paling kiri) di Google Sheets kamu.
+// Kalau data buku dipindah ke tab lain, klik tab-nya lalu lihat "gid=..." di address bar.
+const GID = "0";
 
 const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${GID}`;
 
@@ -42,6 +48,48 @@ function parseCsvLine(line: string): string[] {
   return result;
 }
 
+// Header di Google Sheets dicocokkan berdasarkan NAMA kolom (bukan posisi),
+// supaya tetap aman walau kolom digeser/ditambah di kemudian hari.
+function normalizeHeader(header: string): string {
+  return header.trim().toLowerCase();
+}
+
+// Beberapa kemungkinan nama header untuk tiap field, biar fleksibel
+// kalau ada perbedaan penulisan kecil di sheet.
+const HEADER_ALIASES: Record<keyof Omit<Book, "id">, string[]> = {
+  judul: ["judul buku", "judul"],
+  pengarang: ["pengarang", "penulis"],
+  penerbit: ["penerbit"],
+  tahunTerbit: ["tahun terbit", "tahun"],
+  jumlahEksemplar: ["jumlah eksemplar", "eksemplar", "jumlah"],
+  level: ["level"],
+  subjek: ["subjek", "kategori"],
+  keterangan: ["keterangan", "catatan"],
+};
+
+function buildColumnIndex(headerRow: string[]): Record<string, number> {
+  const normalized = headerRow.map(normalizeHeader);
+  const index: Record<string, number> = {};
+
+  for (const field of Object.keys(HEADER_ALIASES) as (keyof typeof HEADER_ALIASES)[]) {
+    const aliases = HEADER_ALIASES[field];
+    const foundIndex = normalized.findIndex((h) => aliases.includes(h));
+    if (foundIndex !== -1) {
+      index[field] = foundIndex;
+    }
+  }
+
+  // Nomor Inventaris dipakai sebagai id unik tiap buku
+  const invIndex = normalized.findIndex((h) =>
+    ["nomor inventaris", "no inventaris", "nomor"].includes(h)
+  );
+  if (invIndex !== -1) {
+    index["id"] = invIndex;
+  }
+
+  return index;
+}
+
 export async function getBooks(): Promise<Book[]> {
   try {
     const res = await fetch(CSV_URL, { next: { revalidate: 60 } });
@@ -54,22 +102,45 @@ export async function getBooks(): Promise<Book[]> {
     const csvText = await res.text();
     const lines = csvText.split(/\r?\n/).filter((line) => line.trim() !== "");
 
-    // Baris 1 = judul dokumen/kosong, baris 2 = header kolom, data mulai baris 3
-    // Sesuaikan indeks ini kalau struktur sheet kamu berbeda.
+    if (lines.length < 2) {
+      console.error("Sheet tidak punya data (hanya header atau kosong).");
+      return [];
+    }
+
+    const headerRow = parseCsvLine(lines[0]);
+    const columnIndex = buildColumnIndex(headerRow);
+
+    if (columnIndex.judul === undefined) {
+      console.error(
+        "Kolom 'Judul Buku' tidak ditemukan di header sheet. Header yang terbaca:",
+        headerRow
+      );
+      return [];
+    }
+
     const dataLines = lines.slice(1);
 
-    const books: Book[] = dataLines.map((line, index) => {
-      const cols = parseCsvLine(line);
-      return {
-        id: cols[0]?.trim() || String(index + 1),
-        judul: cols[1]?.trim() || "Tanpa judul",
-        kategori: cols[2]?.trim() || "Umum",
-        deskripsi: cols[3]?.trim() || "",
-        status: cols[4]?.trim() || "Tidak diketahui",
-      };
-    });
+    const books: Book[] = dataLines
+      .map((line, i) => {
+        const cols = parseCsvLine(line);
+        const get = (field: string) =>
+          columnIndex[field] !== undefined ? cols[columnIndex[field]]?.trim() || "" : "";
 
-    return books.filter((book) => book.judul !== "Tanpa judul" || book.deskripsi);
+        return {
+          id: get("id") || String(i + 1),
+          judul: get("judul"),
+          pengarang: get("pengarang"),
+          penerbit: get("penerbit"),
+          tahunTerbit: get("tahunTerbit"),
+          jumlahEksemplar: get("jumlahEksemplar"),
+          level: get("level"),
+          subjek: get("subjek"),
+          keterangan: get("keterangan"),
+        };
+      })
+      .filter((book) => book.judul !== "");
+
+    return books;
   } catch (error) {
     console.error("Gagal mengambil data dari Google Sheets:", error);
     return [];
