@@ -1,3 +1,5 @@
+import PhotoGallery from "./PhotoGallery";
+
 const points = [
   {
     text: "Menyediakan akses buku bacaan gratis untuk anak-anak sekitar, dari cerita bergambar hingga komik.",
@@ -13,6 +15,17 @@ const points = [
   },
 ];
 
+// TAMBAHKAN foto suasana taman baca di sini. Taruh file gambarnya di folder
+// public/images/suasana/, lalu isi src dengan path-nya, contoh:
+// { src: "/images/suasana/1.jpg", alt: "Anak-anak membaca bersama" }
+// Kalau src dikosongkan (""), akan tampil kotak warna placeholder dulu.
+const suasanaPhotos = [
+  { src: "", alt: "Anak-anak membaca bersama" },
+  { src: "", alt: "Kegiatan mendongeng" },
+  { src: "", alt: "Rak buku Taman Baca" },
+  { src: "", alt: "Suasana taman baca sore hari" },
+];
+
 export default function About() {
   return (
     <section id="tentang" className="py-16">
@@ -26,13 +39,7 @@ export default function About() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-          <div className="aspect-[4/3] rounded-card bg-gradient-to-br from-mint to-sky-top flex items-center justify-center text-white font-bold text-center p-5 shadow-soft">
-            Foto suasana
-            <br />
-            Taman Baca Mini Cahaya Ilmu
-          </div>
-
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           <div>
             <p>
               Taman Baca Mini Cahaya Ilmu adalah ruang literasi mandiri yang didirikan oleh Ibu Ulin
@@ -43,19 +50,30 @@ export default function About() {
             <p>
               Seiring berjalannya waktu, dedikasi taman baca ini mendapat apresiasi dan dukungan dari pemerintah. Melalui Perpustakaan Daerah (Perpusda), Perpustakaan Nasional (Perpusnas) turut menyalurkan donasi buku untuk mendukung operasional dan memperkaya bahan bacaan bagi anak-anak di lingkungan sekitar.
             </p>
-            <ul className="list-none mt-5 grid gap-4 p-0">
-              {points.map((point, i) => (
-                <li key={i} className="flex gap-3.5 items-start">
-                  <span
-                    className={`font-display font-bold text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-pop ${point.color}`}
-                  >
-                    {i + 1}
-                  </span>
-                  <span>{point.text}</span>
-                </li>
-              ))}
-            </ul>
           </div>
+
+          <ul className="list-none grid gap-4 p-0 content-start">
+            {points.map((point, i) => (
+              <li key={i} className="flex gap-3.5 items-start">
+                <span
+                  className={`font-display font-bold text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-pop ${point.color}`}
+                >
+                  {i + 1}
+                </span>
+                <span>{point.text}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mt-12">
+          <span className="font-label font-bold text-[0.78rem] tracking-wide uppercase text-coral block mb-1.5">
+            Foto Suasana
+          </span>
+          <h3 className="font-display font-bold text-xl mb-4">
+            Taman Baca Mini Cahaya Ilmu
+          </h3>
+          <PhotoGallery photos={suasanaPhotos} />
         </div>
       
         <div className="mt-14">

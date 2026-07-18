@@ -1,5 +1,7 @@
 export type Book = {
   id: string;
+  nomorInventaris: string;
+  tanggalTerima: string;
   judul: string;
   pengarang: string;
   penerbit: string;
@@ -13,10 +15,10 @@ export type Book = {
 // GANTI dengan ID Google Sheets kamu.
 // ID adalah bagian di antara "/d/" dan "/edit" pada URL sheet-nya, contoh:
 // https://docs.google.com/spreadsheets/d/INI_ID_NYA/edit#gid=0
-const SHEET_ID = "1Gm9uHBEEVH1DYbrA57cqLOrt33JXGRkb-IXbhLSVx7aI2NhmoSCatzek";
+const SHEET_ID = "1Gm9uHBEEVH1DYbrA57cqLOrt33JXGRkb";
 // gid=0 adalah tab PERTAMA (paling kiri) di Google Sheets kamu.
 // Kalau data buku dipindah ke tab lain, klik tab-nya lalu lihat "gid=..." di address bar.
-const GID = "0";
+const GID = "495376071";
 
 const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${GID}`;
 
@@ -56,7 +58,8 @@ function normalizeHeader(header: string): string {
 
 // Beberapa kemungkinan nama header untuk tiap field, biar fleksibel
 // kalau ada perbedaan penulisan kecil di sheet.
-const HEADER_ALIASES: Record<keyof Omit<Book, "id">, string[]> = {
+const HEADER_ALIASES: Record<keyof Omit<Book, "id" | "nomorInventaris">, string[]> = {
+  tanggalTerima: ["tanggal terima", "tanggal"],
   judul: ["judul buku", "judul"],
   pengarang: ["pengarang", "penulis"],
   penerbit: ["penerbit"],
@@ -79,12 +82,13 @@ function buildColumnIndex(headerRow: string[]): Record<string, number> {
     }
   }
 
-  // Nomor Inventaris dipakai sebagai id unik tiap buku
+  // Nomor Inventaris dipakai sebagai id unik tiap buku, dan juga ditampilkan
   const invIndex = normalized.findIndex((h) =>
     ["nomor inventaris", "no inventaris", "nomor"].includes(h)
   );
   if (invIndex !== -1) {
     index["id"] = invIndex;
+    index["nomorInventaris"] = invIndex;
   }
 
   return index;
@@ -128,6 +132,8 @@ export async function getBooks(): Promise<Book[]> {
 
         return {
           id: get("id") || String(i + 1),
+          nomorInventaris: get("nomorInventaris"),
+          tanggalTerima: get("tanggalTerima"),
           judul: get("judul"),
           pengarang: get("pengarang"),
           penerbit: get("penerbit"),
