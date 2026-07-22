@@ -61,7 +61,7 @@ export default function Pengurus() {
                     {p.role}
                   </p>
                 </div>
-                {(p.ttl || p.pendidikan || p.alamat) && (
+                {(p.ttl || p.pendidikan ) && (
                   <div className="space-y-2 pt-2 border-t border-cream-2">
                     {p.ttl && (
                       <p className="font-label text-[0.9rem] text-ink-soft leading-snug">
