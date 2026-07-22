@@ -1,5 +1,12 @@
 const pengurus = [
-  { name: "Ibu Ulin", role: "Pendiri TBM Cahaya Ilmu ", color: "bg-coral" },
+  {
+    name: "Ulin Nikmatin Nihayah",
+    role: "Pendiri TBM Cahaya Ilmu",
+    color: "bg-coral",
+    photo: "/images/bu-ulin.png",
+    ttl: "Blitar, 24 Juni 2001",
+    pendidikan: "S1 Ilmu Perpustakaan dan Informasi Islam",
+  },
 ];
 
 function initials(name: string) {
@@ -24,24 +31,51 @@ export default function Pengurus() {
           </h2>
           </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
+        <div className="flex justify-center">
           {pengurus.map((p) => (
             <div
               key={p.name}
-              className="bg-white rounded-card p-5 text-center shadow-soft flex flex-col items-center gap-2.5"
+              className="bg-white rounded-card shadow-soft overflow-hidden flex flex-col sm:flex-row w-full max-w-[720px]"
             >
-              <div
-                className={`w-16 h-16 rounded-full flex items-center justify-center text-white font-display font-bold text-lg shadow-pop ${p.color}`}
-              >
-                {initials(p.name) || "?"}
+              <div className="sm:w-[280px] w-full h-[260px] sm:h-auto flex-shrink-0">
+                {p.photo ? (
+                  <img
+                    src={p.photo}
+                    alt={p.name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div
+                    className={`w-full h-full flex items-center justify-center text-white font-display font-bold text-4xl ${p.color}`}
+                  >
+                    {initials(p.name) || "?"}
+                  </div>
+                )}
               </div>
-              <div>
-                <p className="font-display font-bold text-base leading-tight">
-                  {p.name}
-                </p>
-                <p className="font-label text-[0.78rem] text-ink-soft mt-0.5">
-                  {p.role}
-                </p>
+              <div className="p-7 flex flex-col gap-3 justify-center">
+                <div>
+                  <p className="font-display font-bold text-2xl leading-tight">
+                    {p.name}
+                  </p>
+                  <p className="font-label text-sm text-coral font-bold mt-1 uppercase tracking-wide">
+                    {p.role}
+                  </p>
+                </div>
+                {(p.ttl || p.pendidikan || p.alamat) && (
+                  <div className="space-y-2 pt-2 border-t border-cream-2">
+                    {p.ttl && (
+                      <p className="font-label text-[0.9rem] text-ink-soft leading-snug">
+                        <span className="font-bold text-ink">TTL:</span> {p.ttl}
+                      </p>
+                    )}
+                    {p.pendidikan && (
+                      <p className="font-label text-[0.9rem] text-ink-soft leading-snug">
+                        <span className="font-bold text-ink">Pend. Terakhir:</span>{" "}
+                        {p.pendidikan}
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           ))}
