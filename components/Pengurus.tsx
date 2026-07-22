@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const pengurus = [
   {
     name: "Ulin Nikmatin Nihayah",
@@ -29,7 +31,7 @@ export default function Pengurus() {
           <h2 className="font-display font-bold text-3xl">
             Pengurus Taman Baca
           </h2>
-          </div>
+        </div>
 
         <div className="flex justify-center">
           {pengurus.map((p) => (
@@ -37,12 +39,15 @@ export default function Pengurus() {
               key={p.name}
               className="bg-white rounded-card shadow-soft overflow-hidden flex flex-col sm:flex-row w-full max-w-[720px]"
             >
-              <div className="sm:w-[280px] w-full h-[260px] sm:h-auto flex-shrink-0">
+              {/* Tambahkan class 'relative' agar komponen Image dengan prop 'fill' bisa terposisikan dengan benar */}
+              <div className="sm:w-[280px] w-full h-[260px] sm:h-auto flex-shrink-0 relative">
                 {p.photo ? (
-                  <img
+                  <Image
                     src={p.photo}
                     alt={p.name}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, 280px"
                   />
                 ) : (
                   <div
@@ -61,7 +66,7 @@ export default function Pengurus() {
                     {p.role}
                   </p>
                 </div>
-                {(p.ttl || p.pendidikan ) && (
+                {(p.ttl || p.pendidikan) && (
                   <div className="space-y-2 pt-2 border-t border-cream-2">
                     {p.ttl && (
                       <p className="font-label text-[0.9rem] text-ink-soft leading-snug">
@@ -80,8 +85,6 @@ export default function Pengurus() {
             </div>
           ))}
         </div>
-
-        
       </div>
     </section>
   );
