@@ -1,33 +1,108 @@
-const entries = [
+import WeekPhotoCarousel, { type WeekPhoto } from "./WeekPhotoCarousel";
+
+// Dokumentasi kegiatan dibagi jadi 3 minggu. Tiap minggu punya beberapa foto
+// yang bisa digeser ke samping (carousel), dan tiap foto punya deskripsinya
+// masing-masing lewat field "caption".
+//
+// CARA NAMBAH/GANTI FOTO:
+// 1. Taruh file fotonya di folder public/images/ (atau bikin subfolder baru
+//    misal public/images/dokumentasi/).
+// 2. Isi "src" dengan path-nya, misal "/images/dokumentasi/minggu1-1.jpg".
+// 3. Kalau "src" dikosongkan (""), otomatis tampil kotak warna placeholder
+//    dulu (pakai teks dari "alt") sampai fotonya beneran diisi.
+const weeks: { week: string; title: string; photos: WeekPhoto[] }[] = [
   {
     week: "MINGGU 1",
-    caption: "Pembukaan taman baca & perkenalan ke warga sekitar.",
-    gradient: "from-pink to-[#fbc9d8]",
+    title: "Pembukaan dan Pengenalan Taman Baca",
+    photos: [
+      {
+        src: "/images/week1.jpg",
+        alt: "Pembukaan taman baca",
+        caption: "Pembukaan di taman baca & perkenalan ke warga sekitar.",
+      },
+      {
+        src: "/images/pengelolaan.jpeg",
+        alt: "Sesi pengelolaan taman baca",
+        caption: "Pengelolaan taman baca berupa penomoran buku dan mendata inventaris.",
+      },
+      {
+        src: "/images/week1-1.jpeg",
+        alt: "Tambahkan foto",
+        caption: "Sesi membaca nyaring buku bersama anak-anak di taman baca.",
+      },
+      {
+        src: "/images/proyek.jpg",
+        alt: "Tambahkan foto",
+        caption: "Membuat proyek mencampurkan warna dan mengenal warna-warna berbasis buku bacaan.",
+      },
+      {
+        src: "/images/proyek1.jpg",
+        alt: "Tambahkan foto",
+        caption: "Hasil pembuatan proyek anak-anak tbm cahaya ilmu.",
+      },
+    ],
   },
   {
     week: "MINGGU 2",
-    caption: "Sesi mendongeng bersama anak-anak TK dan PAUD.",
-    gradient: "from-mint to-[#c7f0e6]",
+    title: "Melanjutkan Program Kerja dan Pengelolaan Taman Baca",
+    photos: [
+      {
+        src: "/images/proyek.jpeg",
+        alt: "Pelatihan pengurus",
+        caption: "Membuat proyek berbasis buku bacaan.",
+      },
+      {
+        src: "/images/membaca-nyaring.jpg",
+        alt: "Tambahkan foto",
+        caption: "Sesi membaca nyaring buku bersama anak-anak di Taman Baca.",
+      },
+      {
+        src: "/images/fotbar.jpeg",
+        alt: "Penataan rak buku",
+        caption: "Membuat konten bersama anak-anak Taman Baca Cahaya Ilmu.",
+      },
+      {
+        src: "/images/kunjungan dpl.jpg",
+        alt: "Tambahkan foto",
+        caption: "Kunjungan DPL ke Taman Baca Cahaya Ilmu.",
+      },
+    ],
   },
   {
     week: "MINGGU 3",
-    caption: "Penataan ulang rak dan pendataan koleksi buku.",
-    gradient: "from-lavender to-[#dcd2f7]",
-  },
-  {
-    week: "MINGGU 4",
-    caption: "Pelatihan pengurus taman baca untuk pengelolaan mandiri.",
-    gradient: "from-sun to-[#ffe08a]",
-  },
-  {
-    week: "MINGGU 5",
-    caption: "Lomba membaca nyaring antar anak SD dan SMP.",
-    gradient: "from-coral to-[#f7b3a4]",
-  },
-  {
-    week: "MINGGU 6",
-    caption: "Serah terima pengelolaan taman baca ke warga.",
-    gradient: "from-grass to-[#c9ecc7]",
+    title: "Kunjungan Literasi dari TK dan SD",
+    photos: [
+      {
+        src: "/images/kunjungan-tk.jpeg",
+        alt: "Lomba membaca nyaring",
+        caption: "Kunjungan Literasi dari TK ke Taman Baca Cahaya Ilmu.",
+      },
+      {
+        src: "/images/nyaring-tk.jpeg",
+        alt: "Serah terima pengelolaan",
+        caption: "Membaca nyaring bersama anak-anak TK.",
+      },
+      {
+        src: "/images/mewarnai tk.jpeg",
+        alt: "Tambahkan foto",
+        caption: "Membuat proyek mewarnai bersama anak-anak TK berdasarkan buku bacaan.",
+      },
+      {
+        src: "/images/fotbar-sd.jpeg",
+        alt: "Tambahkan foto",
+        caption: "Kunjungan Literasi dari SD ke Taman Baca Cahaya Ilmu.",
+      },
+      {
+        src: "/images/membaca-sd.jpeg",
+        alt: "Tambahkan foto",
+        caption: "Membaca nyaring bersama anak-anak SD.",
+      },
+      {
+        src: "/images/membuat-kipas.jpeg",
+        alt: "Tambahkan foto",
+        caption: "Membuat proyek kipas berbentuk bunga dan mewarnai bersama anak-anak TK berdasarkan buku bacaan.",
+      },
+    ],
   },
 ];
 
@@ -44,24 +119,19 @@ export default function Documentation() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-          {entries.map((entry) => (
-            <figure
-              key={entry.week}
-              className="m-0 bg-white rounded-card overflow-hidden shadow-soft"
-            >
-              <div
-                className={`aspect-square flex items-center justify-center text-white font-bold text-sm text-center p-3 bg-gradient-to-br ${entry.gradient}`}
-              >
-                Foto kegiatan
-              </div>
-              <figcaption className="px-4 pt-3.5 pb-4">
-                <span className="font-label font-bold text-[0.7rem] text-coral inline-block mb-1.5 bg-coral/10 px-2.5 py-1 rounded-full">
-                  {entry.week}
+        <div className="flex flex-col gap-10">
+          {weeks.map((weekEntry) => (
+            <div key={weekEntry.week}>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="font-label font-bold text-[0.7rem] text-coral bg-coral/10 px-2.5 py-1 rounded-full">
+                  {weekEntry.week}
                 </span>
-                <span className="block text-[0.92rem]">{entry.caption}</span>
-              </figcaption>
-            </figure>
+                <h3 className="font-display font-bold text-lg text-board-dark">
+                  {weekEntry.title}
+                </h3>
+              </div>
+              <WeekPhotoCarousel photos={weekEntry.photos} />
+            </div>
           ))}
         </div>
       </div>
