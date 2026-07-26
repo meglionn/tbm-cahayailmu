@@ -100,7 +100,7 @@ const weeks: { week: string; title: string; photos: WeekPhoto[] }[] = [
       {
         src: "/images/membuat-kipas.jpeg",
         alt: "Tambahkan foto",
-        caption: "Membuat proyek kipas berbentuk bunga dan mewarnai bersama anak-anak TK berdasarkan buku bacaan.",
+        caption: "Membuat proyek kipas berbentuk bunga dan mewarnai bersama anak-anak SD berdasarkan buku bacaan.",
       },
     ],
   },
