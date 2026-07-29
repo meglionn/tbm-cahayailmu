@@ -52,11 +52,6 @@ const weeks: { week: string; title: string; photos: WeekPhoto[] }[] = [
         caption: "Membuat proyek berbasis buku bacaan.",
       },
       {
-        src: "/images/membaca-nyaring.jpg",
-        alt: "Tambahkan foto",
-        caption: "Sesi membaca nyaring buku bersama anak-anak di Taman Baca.",
-      },
-      {
         src: "/images/fotbar.jpeg",
         alt: "Penataan rak buku",
         caption: "Membuat konten bersama anak-anak Taman Baca Cahaya Ilmu.",

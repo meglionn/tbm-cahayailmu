@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atelier — A network for creatives.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F5F2EC;
+    --paper-soft: #EDE9E1;
+    --ink: #0B0B0A;
+    --ink-soft: #2A2926;
+    --ink-mute: #6F6B62;
+    --ink-line: #D9D4C9;
+    --ember: #C04B1E;
+    --ember-soft: #E8865A;
+    --glass: rgba(245, 242, 236, 0.72);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Geist', -apple-system, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    letter-spacing: -0.01em;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  ::selection { background: var(--ember); color: var(--paper); }
+
+  /* ========== NAV ========== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    background: var(--glass);
+    border-bottom: 1px solid rgba(11, 11, 10, 0.06);
+  }
+
+  .nav-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 18px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px;
+    letter-spacing: -0.02em;
+    font-style: italic;
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+  }
+
+  .logo span {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    background: var(--ember);
+    border-radius: 50%;
+    margin-left: 3px;
+    transform: translateY(-12px);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -0.005em;
+  }
+
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-links a:hover { color: var(--ember); }
+
+  .nav-cta {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 11px 22px;
+    border-radius: 100px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .nav-cta:hover {
+    background: var(--ember);
+    transform: translateY(-1px);
+  }
+
+  /* ========== HERO ========== */
+  .hero {
+    min-height: 100vh;
+    padding: 180px 40px 80px;
+    max-width: 1440px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 60px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  .hero-meta .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--ember);
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+
+  .hero h1 {
+    font-family: 'Geist', sans-serif;
+    font-weight: 500;
+    font-size: clamp(56px, 9vw, 156px);
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    color: var(--ink);
+    margin-bottom: 40px;
+  }
+
+  .hero h1 .italic {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--ink-soft);
+  }
+
+  .hero h1 .ember-text {
+    color: var(--ember);
+  }
+
+  .hero-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 60px;
+    margin-top: 100px;
+    align-items: end;
+  }
+
+  .hero-lede {
+    grid-column: span 2;
+    font-size: 22px;
+    line-height: 1.45;
+    letter-spacing: -0.015em;
+    color: var(--ink-soft);
+    max-width: 620px;
+    font-weight: 400;
+  }
+
+  .hero-lede em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 25px;
+  }
+
+  .hero-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    border-left: 1px solid var(--ink-line);
+    padding-left: 28px;
+  }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--ink-line);
+  }
+
+  .stat-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  .stat-value {
+    font-family: 'Geist', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  /* ========== MANIFESTO ========== */
+  .manifesto {
+    padding: 160px 40px;
+    max-width: 1440px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 80px;
+    border-top: 1px solid var(--ink-line);
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--ember);
+  }
+
+  .manifesto-text {
+    font-family: 'Geist', sans-serif;
+    font-size: 38px;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+    color: var(--ink);
+    max-width: 900px;
+  }
+
+  .manifesto-text em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ember);
+  }
+
+  .manifesto-text .quiet {
+    color: var(--ink-mute);
+  }
+
+  /* ========== MEMBERS ========== */
+  .members {
+    padding: 120px 40px;
+    max-width: 1440px;
+    margin: 0 auto;
+    border-top: 1px solid var(--ink-line);
+  }
+
+  .members-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 80px;
+  }
+
+  .members-title {
+    font-family: 'Geist', sans-serif;
+    font-weight: 500;
+    font-size: clamp(40px, 5vw, 72px);
+    letter-spacing: -0.035em;
+    line-height: 1;
+  }
+
+  .members-title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ember);
+  }
+
+  .members-nav {
+    display: flex;
+    gap: 8px;
+  }
+
+  .members-nav button {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--ink-line);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+  }
+
+  .members-nav button:hover {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  .member-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--ink-line);
+    border: 1px solid var(--ink-line);
+  }
+
+  .member-card {
+    background: var(--paper);
+    padding: 36px 32px 32px;
+    cursor: pointer;
+    transition: background 0.4s;
+    position: relative;
+    overflow: hidden;
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .member-card:hover {
+    background: var(--paper-soft);
+  }
+
+  .member-card:hover .member-glyph {
+    transform: rotate(6deg) scale(1.06);
+    color: var(--ember);
+  }
+
+  .member-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .member-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--ink-mute);
+  }
+
+  .member-disc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ember);
+    padding: 4px 10px;
+    border: 1px solid var(--ember);
+    border-radius: 100px;
+  }
+
+  .member-glyph {
+    font-family: 'Instrument Serif', serif;
+    font-size: 140px;
+    font-style: italic;
+    line-height: 0.9;
+    color: var(--ink);
+    margin: 20px 0;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-origin: center;
+  }
+
+  .member-name {
+    font-family: 'Geist', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+
+  .member-loc {
+    font-size: 13px;
+    color: var(--ink-mute);
+    letter-spacing: -0.005em;
+  }
+
+  .member-arrow {
+    position: absolute;
+    bottom: 28px;
+    right: 28px;
+    width: 32px;
+    height: 32px;
+    opacity: 0;
+    transform: translate(-8px, 8px);
+    transition: all 0.4s;
+    color: var(--ember);
+  }
+
+  .member-card:hover .member-arrow {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  /* ========== DISCIPLINES ========== */
+  .disciplines {
+    padding: 160px 40px;
+    max-width: 1440px;
+    margin: 0 auto;
+    border-top: 1px solid var(--ink-line);
+  }
+
+  .disciplines-header {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 80px;
+    margin-bottom: 80px;
+    align-items: end;
+  }
+
+  .disciplines-title {
+    font-family: 'Geist', sans-serif;
+    font-weight: 500;
+    font-size: clamp(40px, 5vw, 72px);
+    letter-spacing: -0.035em;
+    line-height: 1;
+  }
+
+  .disciplines-title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .disc-list {
+    list-style: none;
+  }
+
+  .disc-item {
+    display: grid;
+    grid-template-columns: 60px 1fr 200px 60px;
+    align-items: center;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--ink-line);
+    cursor: pointer;
+    transition: all 0.4s;
+    position: relative;
+  }
+
+  .disc-item:first-child { border-top: 1px solid var(--ink-line); }
+
+  .disc-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--ember);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+    z-index: -1;
+  }
+
+  .disc-item:hover {
+    color: var(--paper);
+    padding-left: 24px;
+  }
+
+  .disc-item:hover::after {
+    transform: scaleX(1);
+  }
+
+  .disc-item:hover .disc-count,
+  .disc-item:hover .disc-num {
+    color: var(--paper);
+    opacity: 0.6;
+  }
+
+  .disc-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-mute);
+    transition: color 0.4s;
+  }
+
+  .disc-name {
+    font-family: 'Geist', sans-serif;
+    font-size: 42px;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    transition: color 0.4s;
+  }
+
+  .disc-name em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+  }
+
+  .disc-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-mute);
+    text-align: right;
+    transition: color 0.4s;
+  }
+
+  .disc-arrow {
+    text-align: right;
+    font-size: 24px;
+    transition: transform 0.4s;
+  }
+
+  .disc-item:hover .disc-arrow {
+    transform: translateX(8px);
+  }
+
+  /* ========== EVENTS ========== */
+  .events {
+    padding: 160px 40px;
+    max-width: 1440px;
+    margin: 0 auto;
+    border-top: 1px solid var(--ink-line);
+  }
+
+  .events-header {
+    margin-bottom: 80px;
+  }
+
+  .events-title {
+    font-family: 'Geist', sans-serif;
+    font-weight: 500;
+    font-size: clamp(48px, 7vw, 100px);
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    margin-top: 24px;
+    max-width: 1100px;
+  }
+
+  .events-title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ember);
+  }
+
+  .event-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+
+  .event-card {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 48px 40px 40px;
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+  }
+
+  .event-card:hover {
+    transform: translateY(-6px);
+  }
+
+  .event-card.ember-card {
+    background: var(--ember);
+  }
+
+  .event-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 80%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(245, 242, 236, 0.08), transparent 60%);
+    pointer-events: none;
+  }
+
+  .event-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .event-name {
+    font-family: 'Geist', sans-serif;
+    font-size: 44px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+    margin: 32px 0 20px;
+  }
+
+  .event-name em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .event-desc {
+    font-size: 15px;
+    line-height: 1.55;
+    opacity: 0.8;
+    max-width: 440px;
+  }
+
+  .event-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(245, 242, 236, 0.15);
+  }
+
+  .event-cta {
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ========== TYPE SPECIMEN ========== */
+  .specimen {
+    padding: 160px 40px;
+    max-width: 1440px;
+    margin: 0 auto;
+    border-top: 1px solid var(--ink-line);
+    overflow: hidden;
+  }
+
+  .specimen-header {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 80px;
+    margin-bottom: 80px;
+  }
+
+  .specimen-blurb {
+    font-size: 22px;
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+    max-width: 620px;
+    color: var(--ink-soft);
+  }
+
+  .specimen-blurb em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--ember);
+  }
+
+  .alphabet {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(80px, 14vw, 220px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    color: var(--ink);
+    animation: marquee 40s linear infinite;
+    margin: 40px 0;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .alphabet-wrap {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .alphabet-wrap::before,
+  .alphabet-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 120px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .alphabet-wrap::before {
+    left: 0;
+    background: linear-gradient(to right, var(--paper), transparent);
+  }
+
+  .alphabet-wrap::after {
+    right: 0;
+    background: linear-gradient(to left, var(--paper), transparent);
+  }
+
+  .specimen-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--ink-line);
+    border: 1px solid var(--ink-line);
+    margin-top: 80px;
+  }
+
+  .specimen-cell {
+    background: var(--paper);
+    padding: 28px;
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.4s;
+    cursor: pointer;
+  }
+
+  .specimen-cell:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .specimen-cell:hover .spec-char {
+    color: var(--ember-soft);
+  }
+
+  .spec-info {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .spec-char {
+    font-family: 'Instrument Serif', serif;
+    font-size: 92px;
+    line-height: 1;
+    align-self: center;
+    transition: color 0.4s;
+  }
+
+  .spec-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ========== JOIN CTA ========== */
+  .join {
+    padding: 200px 40px;
+    max-width: 1440px;
+    margin: 0 auto;
+    border-top: 1px solid var(--ink-line);
+    text-align: center;
+    position: relative;
+  }
+
+  .join-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 40px;
+  }
+
+  .join-title {
+    font-family: 'Geist', sans-serif;
+    font-weight: 400;
+    font-size: clamp(64px, 11vw, 200px);
+    letter-spacing: -0.05em;
+    line-height: 0.88;
+    margin-bottom: 60px;
+  }
+
+  .join-title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--ember);
+  }
+
+  .join-sub {
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 540px;
+    margin: 0 auto 60px;
+    letter-spacing: -0.01em;
+  }
+
+  .join-form {
+    display: flex;
+    gap: 12px;
+    max-width: 520px;
+    margin: 0 auto;
+    background: var(--paper);
+    border: 1px solid var(--ink-line);
+    border-radius: 100px;
+    padding: 8px 8px 8px 24px;
+    transition: all 0.3s;
+  }
+
+  .join-form:focus-within {
+    border-color: var(--ink);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(11, 11, 10, 0.08);
+  }
+
+  .join-form input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--ink);
+    outline: none;
+    letter-spacing: -0.01em;
+  }
+
+  .join-form input::placeholder {
+    color: var(--ink-mute);
+  }
+
+  .join-form button {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 14px 28px;
+    border-radius: 100px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
+    letter-spacing: -0.005em;
+  }
+
+  .join-form button:hover {
+    background: var(--ember);
+  }
+
+  .join-note {
+    margin-top: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  /* ========== FOOTER ========== */
+  footer {
+    border-top: 1px solid var(--ink-line);
+    padding: 80px 40px 40px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 80px;
+  }
+
+  .footer-logo {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 48px;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+
+  .footer-tag {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-mute);
+    max-width: 280px;
+  }
+
+  .footer-col h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-col a {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: -0.005em;
+    transition: color 0.3s;
+  }
+
+  .footer-col a:hover { color: var(--ember); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 40px;
+    border-top: 1px solid var(--ink-line);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  .footer-mega {
+    font-family: 'Geist', sans-serif;
+    font-weight: 500;
+    font-size: clamp(80px, 18vw, 280px);
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    text-align: center;
+    margin: 80px 0 -20px;
+    color: var(--ink);
+    overflow: hidden;
+  }
+
+  .footer-mega em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ember);
+  }
+
+  /* Reveal animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s cubic-bezier(0.25, 0.1, 0.25, 1), transform 1s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Responsive */
+  @media (max-width: 960px) {
+    .nav-links { display: none; }
+    .hero-bottom { grid-template-columns: 1fr; gap: 40px; }
+    .hero-lede { grid-column: span 1; }
+    .manifesto, .disciplines-header, .specimen-header { grid-template-columns: 1fr; gap: 40px; }
+    .member-grid { grid-template-columns: 1fr 1fr; }
+    .event-grid { grid-template-columns: 1fr; }
+    .specimen-grid { grid-template-columns: 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .disc-item { grid-template-columns: 40px 1fr 40px; }
+    .disc-count { display: none; }
+    .disc-name { font-size: 28px; }
+    .members-header { flex-direction: column; align-items: flex-start; gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">Atelier<span></span></div>
+    <ul class="nav-links">
+      <li><a href="#manifesto">Manifesto</a></li>
+      <li><a href="#members">Members</a></li>
+      <li><a href="#disciplines">Disciplines</a></li>
+      <li><a href="#events">Salons</a></li>
+      <li><a href="#specimen">Specimen</a></li>
+    </ul>
+    <button class="nav-cta">Request invitation →</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-meta">
+    <span class="dot"></span>
+    <span>Edition №.07 — Winter MMXXVI</span>
+    <span style="margin-left: auto;">A network for the makers</span>
+  </div>
+
+  <h1>
+    Where <span class="italic">craft</span> meets<br>
+    its <span class="ember-text">kindred</span>.
+  </h1>
+
+  <div class="hero-bottom">
+    <p class="hero-lede">
+      Atelier is a quiet, considered network for designers, illustrators, type folks, and motion artists who care about <em>the work</em>. No follower counts. No vanity metrics. Just craft, connection, and the studios you find along the way.
+    </p>
+    <div class="hero-stats">
+      <div class="stat-row">
+        <span class="stat-label">Members</span>
+        <span class="stat-value">2,847</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Cities</span>
+        <span class="stat-value">63</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Studios</span>
+        <span class="stat-value">412</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto" id="manifesto">
+  <div class="section-label">№ 01 — Manifesto</div>
+  <div class="manifesto-text reveal">
+    We believe the internet has flattened taste. <span class="quiet">That distribution rewards volume over voice, and that the work that matters rarely trends.</span> Atelier is a slow place for fast minds — <em>a salon, not a feed</em>. It exists to introduce you to the people whose work you'd be proud to share a margin with.
+  </div>
+</section>
+
+<!-- MEMBERS -->
+<section class="members" id="members">
+  <div class="members-header">
+    <h2 class="members-title">Featured <em>kindred</em>.</h2>
+    <div class="members-nav">
+      <button>←</button>
+      <button>→</button>
+    </div>
+  </div>
+
+  <div class="member-grid">
+    <div class="member-card reveal">
+      <div class="member-top">
+        <span class="member-id">№ 0241</span>
+        <span class="member-disc">Type Design</span>
+      </div>
+      <div class="member-glyph">Aa</div>
+      <div>
+        <div class="member-name">Mira Aelwyn</div>
+        <div class="member-loc">Reykjavík, IS</div>
+      </div>
+      <svg class="member-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M7 17L17 7M17 7H8M17 7V16"/>
+      </svg>
+    </div>
+
+    <div class="member-card reveal">
+      <div class="member-top">
+        <span class="member-id">№ 0319</span>
+        <span class="member-disc">Editorial</span>
+      </div>
+      <div class="member-glyph">Eg</div>
+      <div>
+        <div class="member-name">Soren Vasquez</div>
+        <div class="member-loc">Mexico City, MX</div>
+      </div>
+      <svg class="member-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M7 17L17 7M17 7H8M17 7V16"/>
+      </svg>
+    </div>
+
+    <div class="member-card reveal">
+      <div class="member-top">
+        <span class="member-id">№ 0427</span>
+        <span class="member-disc">Motion</span>
+      </div>
+      <div class="member-glyph">Mo</div>
+      <div>
+        <div class="member-name">Nia Okonkwo</div>
+        <div class="member-loc">Lagos, NG</div>
+      </div>
+      <svg class="member-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M7 17L17 7M17 7H8M17 7V16"/>
+      </svg>
+    </div>
+
+    <div class="member-card reveal">
+      <div class="member-top">
+        <span class="member-id">№ 0508</span>
+        <span class="member-disc">Identity</span>
+      </div>
+      <div class="member-glyph">Ix</div>
+      <div>
+        <div class="member-name">Jonas Reinholdt</div>
+        <div class="member-loc">Copenhagen, DK</div>
+      </div>
+      <svg class="member-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M7 17L17 7M17 7H8M17 7V16"/>
+      </svg>
+    </div>
+
+    <div class="member-card reveal">
+      <div class="member-top">
+        <span class="member-id">№ 0612</span>
+        <span class="member-disc">Illustration</span>
+      </div>
+      <div class="member-glyph">Il</div>
+      <div>
+        <div class="member-name">Yuki Tanaka</div>
+        <div class="member-loc">Kyoto, JP</div>
+      </div>
+      <svg class="member-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M7 17L17 7M17 7H8M17 7V16"/>
+      </svg>
+    </div>
+
+    <div class="member-card reveal">
+      <div class="member-top">
+        <span class="member-id">№ 0734</span>
+        <span class="member-disc">Spatial</span>
+      </div>
+      <div class="member-glyph">Sp</div>
+      <div>
+        <div class="member-name">Amelia Carrière</div>
+        <div class="member-loc">Lisbon, PT</div>
+      </div>
+      <svg class="member-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M7 17L17 7M17 7H8M17 7V16"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- DISCIPLINES -->
+<section class="disciplines" id="disciplines">
+  <div class="disciplines-header">
+    <div class="section-label">№ 02 — Disciplines</div>
+    <h2 class="disciplines-title">Find your <em>people</em>, by craft.</h2>
+  </div>
+
+  <ul class="disc-list">
+    <li class="disc-item">
+      <span class="disc-num">01</span>
+      <span class="disc-name"><em>Type</em> Design</span>
+      <span class="disc-count">312 members</span>
+      <span class="disc-arrow">→</span>
+    </li>
+    <li class="disc-item">
+      <span class="disc-num">02</span>
+      <span class="disc-name">Identity &amp; <em>Brand</em></span>
+      <span class="disc-count">587 members</span>
+      <span class="disc-arrow">→</span>
+    </li>
+    <li class="disc-item">
+      <span class="disc-num">03</span>
+      <span class="disc-name"><em>Editorial</em> Design</span>
+      <span class="disc-count">241 members</span>
+      <span class="disc-arrow">→</span>
+    </li>
+    <li class="disc-item">
+      <span class="disc-num">04</span>
+      <span class="disc-name">Motion &amp; <em>Animation</em></span>
+      <span class="disc-count">429 members</span>
+      <span class="disc-arrow">→</span>
+    </li>
+    <li class="disc-item">
+      <span class="disc-num">05</span>
+      <span class="disc-name"><em>Illustration</em></span>
+      <span class="disc-count">368 members</span>
+      <span class="disc-arrow">→</span>
+    </li>
+    <li class="disc-item">
+      <span class="disc-num">06</span>
+      <span class="disc-name">Product &amp; <em>Interface</em></span>
+      <span class="disc-count">514 members</span>
+      <span class="disc-arrow">→</span>
+    </li>
+    <li class="disc-item">
+      <span class="disc-num">07</span>
+      <span class="disc-name"><em>Spatial</em> &amp; Environments</span>
+      <span class="disc-count">189 members</span>
+      <span class="disc-arrow">→</span>
+    </li>
+    <li class="disc-item">
+      <span class="disc-num">08</span>
+      <span class="disc-name">Photography &amp; <em>Film</em></span>
+      <span class="disc-count">207 members</span>
+      <span class="disc-arrow">→</span>
+    </li>
+  </ul>
+</section>
+
+<!-- EVENTS / SALONS -->
+<section class="events" id="events">
+  <div class="events-header">
+    <div class="section-label">№ 03 — Gatherings</div>
+    <h2 class="events-title">Quiet rooms.<br><em>Loud</em> ideas.</h2>
+  </div>
+
+  <div class="event-grid">
+    <div class="event-card">
+      <div class="event-meta">
+        <span>SAL/032 — Salon</span>
+        <span>14 Mar 2026</span>
+      </div>
+      <div>
+        <h3 class="event-name">On <em>Restraint</em> in the Age of Output</h3>
+        <p class="event-desc">An evening conversation with three working designers on the discipline of saying no — moderated over natural wine at Bar Centrale, Milano.</p>
+      </div>
+      <div class="event-footer">
+        <span>Milano, IT · 24 seats</span>
+        <span class="event-cta">Reserve →</span>
+      </div>
+    </div>
+
+    <div class="event-card ember-card">
+      <div class="event-meta">
+        <span>WRK/008 — Workshop</span>
+        <span>28 Mar 2026</span>
+      </div>
+      <div>
+        <h3 class="event-name">A weekend on <em>kerning</em>, slowly.</h3>
+        <p class="event-desc">Two days, ten members, one alphabet. A hands-on workshop on the patient art of spacing letters — held in a converted print shop in Antwerp.</p>
+      </div>
+      <div class="event-footer">
+        <span>Antwerp, BE · 10 seats</span>
+        <span class="event-cta">Reserve →</span>
+      </div>
+    </div>
+
+    <div class="event-card">
+      <div class="event-meta">
+        <span>DIN/014 — Dinner</span>
+        <span>05 Apr 2026</span>
+      </div>
+      <div>
+        <h3 class="event-name">A long table for <em>brand</em> people.</h3>
+        <p class="event-desc">Twelve identity designers, one chef, eight courses. The only rule: no slide decks. Just dinner, and the conversations it permits.</p>
+      </div>
+      <div class="event-footer">
+        <span>Brooklyn, US · 12 seats</span>
+        <span class="event-cta">Reserve →</span>
+      </div>
+    </div>
+
+    <div class="event-card">
+      <div class="event-meta">
+        <span>CRIT/021 — Studio Visit</span>
+        <span>19 Apr 2026</span>
+      </div>
+      <div>
+        <h3 class="event-name">Inside Studio <em>Dumbar</em>, after hours.</h3>
+        <p class="event-desc">A small group tour and informal critique session at one of the studios that shaped modern visual identity. Ends with drinks on the canal.</p>
+      </div>
+      <div class="event-footer">
+        <span>The Hague, NL · 16 seats</span>
+        <span class="event-cta">Reserve →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TYPE SPECIMEN -->
+<section class="specimen" id="specimen">
+  <div class="specimen-header">
+    <div class="section-label">№ 04 — Specimen</div>
+    <p class="specimen-blurb">
+      We share a quiet love for <em>letterforms</em>. Each season, our type committee releases a typeface — free for members, licensed at cost for everyone else.
+    </p>
+  </div>
+
+  <div class="alphabet-wrap">
+    <div class="alphabet">Aa&nbsp;Bb&nbsp;Cc&nbsp;Dd&nbsp;Ee&nbsp;Ff&nbsp;Gg&nbsp;Hh&nbsp;Ii&nbsp;Jj&nbsp;Kk&nbsp;Ll&nbsp;Mm&nbsp;Nn&nbsp;Oo&nbsp;Pp&nbsp;Qq&nbsp;Rr&nbsp;Ss&nbsp;Tt&nbsp;Uu&nbsp;Vv&nbsp;Ww&nbsp;Xx&nbsp;Yy&nbsp;Zz&nbsp;Aa&nbsp;Bb&nbsp;Cc&nbsp;Dd&nbsp;Ee&nbsp;Ff&nbsp;Gg&nbsp;Hh&nbsp;Ii&nbsp;Jj&nbsp;Kk&nbsp;Ll&nbsp;Mm&nbsp;Nn&nbsp;Oo&nbsp;Pp&nbsp;Qq&nbsp;Rr&nbsp;Ss&nbsp;Tt&nbsp;Uu&nbsp;Vv&nbsp;Ww&nbsp;Xx&nbsp;Yy&nbsp;Zz&nbsp;</div>
+  </div>
+
+  <div class="specimen-grid">
+    <div class="specimen-cell">
+      <div class="spec-info"><span>01</span><span>Serif</span></div>
+      <div class="spec-char">Æ</div>
+      <div class="spec-name">Atelier Editorial</div>
+    </div>
+    <div class="specimen-cell">
+      <div class="spec-info"><span>02</span><span>Display</span></div>
+      <div class="spec-char">g</div>
+      <div class="spec-name">Kindred Display</div>
+    </div>
+    <div class="specimen-cell">
+      <div class="spec-info"><span>03</span><span>Mono</span></div>
+      <div class="spec-char">&</div>
+      <div class="spec-name">Marginalia Mono</div>
+    </div>
+    <div class="specimen-cell">
+      <div class="spec-info"><span>04</span><span>Text</span></div>
+      <div class="spec-char">Q</div>
+      <div class="spec-name">Salon Text</div>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN -->
+<section class="join">
+  <div class="join-eyebrow">— Membership is by introduction —</div>
+  <h2 class="join-title">Find your<br><em>margin</em>.</h2>
+  <p class="join-sub">
+    Atelier is invitation-only. Leave your email and we'll write to you when applications open for the next season — or sooner, if a member vouches for you.
+  </p>
+  <form class="join-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='✓ Received';">
+    <input type="email" placeholder="your@email.studio" required>
+    <button type="submit">Request invitation</button>
+  </form>
+  <div class="join-note">No newsletters. No noise. ~6 emails per year.</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">Atelier.</div>
+      <p class="footer-tag">A quiet network for designers, illustrators, type folks, and motion artists who care about the work.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Network</h4>
+      <ul>
+        <li><a href="#">Members</a></li>
+        <li><a href="#">Studios</a></li>
+        <li><a href="#">Disciplines</a></li>
+        <li><a href="#">The Index</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Gatherings</h4>
+      <ul>
+        <li><a href="#">Salons</a></li>
+        <li><a href="#">Workshops</a></li>
+        <li><a href="#">Dinners</a></li>
+        <li><a href="#">Studio Visits</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>House</h4>
+      <ul>
+        <li><a href="#">Manifesto</a></li>
+        <li><a href="#">Type Foundry</a></li>
+        <li><a href="#">Journal</a></li>
+        <li><a href="#">Colophon</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-mega">Atel<em>ier</em>.</div>
+
+  <div class="footer-bottom">
+    <span>© MMXXVI — Made by hand, in many places.</span>
+    <span>Set in Geist &amp; Instrument Serif</span>
+  </div>
+</footer>
+
+<script>
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = `${(i % 3) * 90}ms`;
+    io.observe(el);
+  });
+
+  // Subtle stagger on member cards by row
+  document.querySelectorAll('.member-card').forEach((card, i) => {
+    card.style.transitionDelay = `${(i % 3) * 100}ms`;
+  });
+</script>
+
+</body>
+</html>

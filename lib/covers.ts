@@ -4,8 +4,6 @@ import path from "path";
 const IMAGES_DIR = path.join(process.cwd(), "public", "images");
 const MIN_SLUG_LENGTH = 4;
 
-// File-file ini SUDAH dipakai untuk hal lain (foto suasana, poster, dll),
-// jadi jangan pernah dianggap sebagai cover buku walau namanya cocok.
 const EXCLUDED_FILES = new Set([
   "poster.png",
   "halaman.jpg",
