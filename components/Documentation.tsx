@@ -73,11 +73,6 @@ const weeks: { week: string; title: string; photos: WeekPhoto[] }[] = [
         caption: "Kunjungan Literasi dari TK ke Taman Baca Cahaya Ilmu.",
       },
       {
-        src: "/images/nyaring-tk.jpeg",
-        alt: "Serah terima pengelolaan",
-        caption: "Membaca nyaring bersama anak-anak TK.",
-      },
-      {
         src: "/images/mewarnai tk.jpeg",
         alt: "Tambahkan foto",
         caption: "Membuat proyek mewarnai bersama anak-anak TK berdasarkan buku bacaan.",
@@ -86,6 +81,11 @@ const weeks: { week: string; title: string; photos: WeekPhoto[] }[] = [
         src: "/images/fotbar-sd.jpeg",
         alt: "Tambahkan foto",
         caption: "Kunjungan Literasi dari SD ke Taman Baca Cahaya Ilmu.",
+      },
+      {
+        src: "/images/nyaring-tk.jpeg",
+        alt: "Serah terima pengelolaan",
+        caption: "Membaca nyaring bersama anak-anak TK.",
       },
       {
         src: "/images/membaca-sd.jpeg",
