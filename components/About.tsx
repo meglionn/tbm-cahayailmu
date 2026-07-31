@@ -15,10 +15,6 @@ const points = [
   },
 ];
 
-// TAMBAHKAN foto suasana taman baca di sini. Taruh file gambarnya di folder
-// public/images/suasana/, lalu isi src dengan path-nya, contoh:
-// { src: "/images/suasana/1.jpg", alt: "Anak-anak membaca bersama" }
-// Kalau src dikosongkan (""), akan tampil kotak warna placeholder dulu.
 const suasanaPhotos = [
   { src: "/images/halaman.jpg"},
   { src: "/images/tbm.jpg"},

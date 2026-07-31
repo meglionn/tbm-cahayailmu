@@ -20,7 +20,7 @@ export default function Hero() {
       </div>
 
         <p className="max-w-[560px] mx-auto mt-6 text-center text-ink-soft text-base relative z-[2]">
-          Ruang baca kecil yang hangat untuk anak-anak TK, PAUD, SD, hingga SMP
+          Ruang baca kecil yang hangat untuk anak-anak PAUD, TK, SD, hingga SMP
           
         </p>
 
